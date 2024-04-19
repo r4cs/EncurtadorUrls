@@ -6,9 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace cp2.Controllers
 {
-    [ApiController]
-    [Route("")]
-    public class EncurtadorController : ControllerBase
+    public class EncurtadorController : BaseApiController
     {
         private readonly ApiService _apiService;
 
@@ -49,7 +47,7 @@ namespace cp2.Controllers
         }
 
         [HttpGet("r/{codigo}")]
-        // [ApiExplorerSettings(IgnoreApi = true)]
+        [ApiExplorerSettings(IgnoreApi = true)]
         [SwaggerOperation(Summary = "Redireciona para a URL original associada ao código de URL encurtada.", Description = "Redireciona para a URL original associada ao código de URL encurtada.")]
         [SwaggerResponse(StatusCodes.Status302Found, "O redirecionamento foi efetuado com sucesso.")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "O código de URL encurtada não foi encontrado.")]
@@ -64,6 +62,34 @@ namespace cp2.Controllers
 
             return Redirect(encurtadorUrl.UrlLonga);
         }
+
+        // [HttpGet]
+        // [SwaggerOperation(Summary = "Retorna todas as urls salvas", Description = "Retorna todas as urls salvas")]
+        // [SwaggerResponse(StatusCodes.Status200OK)]
+        // [SwaggerResponse(StatusCodes.Status404NotFound)]
+        // public async Task<IActionResult> ObtemTodasUrls()
+        // {
+        //     var urls = await _apiService.GetAll();
+        //     if (urls == null || urls.Count == 0)
+        //     {
+        //         return NotFound();
+        //     }
+        //     return Ok(urls);
+        // }
+        
+        [HttpGet]
+        [SwaggerOperation(Summary = "Retorna todas as URLs salvas", Description = "Retorna todas as URLs salvas")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Lista de URLs retornada com sucesso", typeof(List<EncurtadorUrl>))]
+        public async Task<IActionResult> ObtemTodasUrls([FromQuery] string orderBy = null)
+        {
+            var urls = await _apiService.GetAll(orderBy);
+            if (urls == null || urls.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(urls);
+        }
+
 
         [HttpDelete("{codigo}")]
         [SwaggerOperation(Summary = "Exclui uma URL encurtada.", Description = "Exclui uma URL encurtada.")]

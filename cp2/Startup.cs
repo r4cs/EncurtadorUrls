@@ -2,6 +2,7 @@ using cp2.HealthChecks;
 using cp2.Services;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
@@ -35,7 +36,8 @@ public class Startup
     
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api Encurtador de links", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api Encurtador de links v1", Version = "v1" });
+
         });
         
         services.AddHealthChecks()
@@ -44,6 +46,21 @@ public class Startup
                 failureStatus: HealthStatus.Unhealthy,
                 tags: new[] { "Feedback", "Database" })
             .AddCheck<RemoteHealthCheck>("Remote Health Check", failureStatus: HealthStatus.Unhealthy, tags: new[] { "Feedback", "Remote" });
+        
+        
+        services.AddApiVersioning(options =>
+        {
+            options.ReportApiVersions = true;
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+        });
+
+        services.AddVersionedApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
+        });
+
         
         // services.AddHealthChecksUI(opt =>
         // {

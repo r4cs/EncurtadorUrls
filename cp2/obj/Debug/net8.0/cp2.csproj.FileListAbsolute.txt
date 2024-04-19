@@ -141,3 +141,5 @@
 /Users/raquelguzansky/RiderProjects/cp2/cp2/obj/Debug/net8.0/cp2.pdb
 /Users/raquelguzansky/RiderProjects/cp2/cp2/obj/Debug/net8.0/cp2.genruntimeconfig.cache
 /Users/raquelguzansky/RiderProjects/cp2/cp2/obj/Debug/net8.0/ref/cp2.dll
+/Users/raquelguzansky/RiderProjects/cp2/cp2/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll
+/Users/raquelguzansky/RiderProjects/cp2/cp2/obj/Debug/net8.0/cp2.sourcelink.json
